@@ -1,0 +1,27 @@
+<form [formGroup]="createForm" novalidate (ngSubmit)="onSubmit(createForm)">
+  <div formArrayName="chapterList">
+    <div *ngFor="let chapter of chapters.controls; let i = index">
+      <div [formGroupName]="i">
+        <input formControlName="mainChapterName" placeholder="main chapter" />
+        <button (click)="removeChapter(i)">Remove Chpater</button>
+        <div formArrayName="subChapters">
+          <div
+            *ngFor="
+              let subchapter of chapter['controls'].subChapters['controls'];
+              let j = index
+            "
+          >
+            <div [formGroupName]="j">
+              <input formControlName="subChapterName" />
+              <button *ngIf="chapter['controls'].subChapters['controls'].length > 0" (click)="removeSubChapter(i, j)">Remove Sub Chapter</button>
+            </div>
+          </div>
+          <button (click)="addSubhapter(i)">Add Sub Chapter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button (click)="addChapter()">Add Chapter</button>
+</form>
+
+<pre> {{ createForm.value | json }} </pre>
